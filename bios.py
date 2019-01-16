@@ -13,7 +13,9 @@ class Kasboek:
 
 class KasboekRegel:
     def __init__(self):
-
+        self.van = 0
+        self.naar = 0
+        self.bedrag = 0
         pass
 
 class BiosBorrelCalculator:
@@ -52,34 +54,9 @@ class BiosBorrelCalculator:
         for deelnemer in self.deelnemers:
             for idx in self.deelnemers:
                 if deelnemer != idx:
-
-                    print(deelnemer.name , " betaalverzoek aan ", idx.name, " voor ", "{0:.2f}".format(deelnemer.amount/3) + " Euro" )
-
-        # if value1 == value4:
-        #     print(name1, "great you already paid what you have to pay, \n")
-        # elif value1 <= value4:
-        #     v = value4 - value1
-        #     print(name1, "you need to pay", "{0:.2f}".format(v) , "additionally, \n")
-        # elif value1 >= value4:
-        #     w = value1 - value4
-        #     print(name1, "you wiil receive", "{0:.2f}".format(w) , "additionally, \n")
-        # if value2 == value4:
-        #     print(name2, "great you already paid what you have to pay, \n")
-        # elif value2 <= value4:
-        #     x = value4 - value2
-        #     print(name2, "you need to pay", "{0:.2f}".format(x) , "additionally, \n")
-        # elif value2 >= value4:
-        #     y = value2 - value4
-        #     print(name2, "you will receive", "{0:.2f}".format(y) , "additionally, \n")
-        # if value3 == value4:
-        #     print(name2, "great you already paid what you have to pay, \n")
-        # elif value3 <= value4:
-        #     z = value4 - value3
-        #     print(name3, "you need to pay", "{0:.2f}".format(z) , "additionally, \n")
-        # elif value3 >= value4:
-        #     zz = value3 - value4
-        #     print(name3, "you wiil receive", "{0:.2f}".format(zz) , "additionally, \n")
-        pass
+                    betaling = (deelnemer.amount / 3) - (idx.amount / 3)
+                    if betaling > 0:
+                        print(deelnemer.name , " betaalverzoek aan ", idx.name, " voor ", "{0:.2f}".format(betaling) + " Euro" )
 
     def debug(self):
         for p in self.deelnemers:
