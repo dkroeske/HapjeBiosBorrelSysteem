@@ -1,10 +1,20 @@
 import re
 
 class Deelnemer:
-
     def __init__(self, name, amount):
         self.name = name
         self.amount = amount
+
+class Kasboek:
+    def __init__(self):
+        self.totaal = 0
+        self.items = []
+        pass
+
+class KasboekRegel:
+    def __init__(self):
+
+        pass
 
 class BiosBorrelCalculator:
 
@@ -28,9 +38,23 @@ class BiosBorrelCalculator:
             else:
                 print("Ongeldige input, bye")
                 exit()
-                
+
     # Verzamelen wie er allemaal meedoen en met welke inleg
     def calculate(self):
+
+        self.kasboek = Kasboek()
+
+        #Bereken totaal gespendeerd
+        for deelnemer in self.deelnemers:
+            self.kasboek.totaal += deelnemer.amount
+
+        # Voor alle deelnemens behalve jezelf
+        for deelnemer in self.deelnemers:
+            for idx in self.deelnemers:
+                if deelnemer != idx:
+
+                    print(deelnemer.name , " betaalverzoek aan ", idx.name, " voor ", "{0:.2f}".format(deelnemer.amount/3) + " Euro" )
+
         # if value1 == value4:
         #     print(name1, "great you already paid what you have to pay, \n")
         # elif value1 <= value4:
@@ -67,4 +91,4 @@ class BiosBorrelCalculator:
 if __name__ == '__main__':
     biosBorrel = BiosBorrelCalculator()
     biosBorrel.collectNamesAndAmount()
-    biosBorrel.debug()
+    biosBorrel.calculate()
