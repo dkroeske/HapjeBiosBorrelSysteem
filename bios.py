@@ -12,10 +12,10 @@ class Kasboek:
         pass
 
 class KasboekRegel:
-    def __init__(self):
-        self.van = 0
-        self.naar = 0
-        self.bedrag = 0
+    def __init__(self, van, naar, bedrag):
+        self.van = van
+        self.naar = naar
+        self.bedrag = bedrag
         pass
 
 class BiosBorrelCalculator:
@@ -44,23 +44,29 @@ class BiosBorrelCalculator:
     # Verzamelen wie er allemaal meedoen en met welke inleg
     def calculate(self):
 
+        # Maak nieuw leeg kasboek
         self.kasboek = Kasboek()
 
-        #Bereken totaal gespendeerd
+        #B ereken totaal gespendeerd
         for deelnemer in self.deelnemers:
             self.kasboek.totaal += deelnemer.amount
 
-        # Voor alle deelnemens behalve jezelf
+        # Voor alle deelnemens behalve jezelf bereken evt. betaling
         for deelnemer in self.deelnemers:
             for idx in self.deelnemers:
                 if deelnemer != idx:
                     betaling = (deelnemer.amount / 3) - (idx.amount / 3)
                     if betaling > 0:
-                        print(deelnemer.name , " betaalverzoek aan ", idx.name, " voor ", "{0:.2f}".format(betaling) + " Euro" )
+                        kasboekRegel = KasboekRegel(idx.name, deelnemer.name, betaling)
+                        self.kasboek.items.append(kasboekRegel)
 
-    def debug(self):
-        for p in self.deelnemers:
-            print( p.name + " : " + str(p.amount))
+    #
+    #
+    def printOutput(self):
+        print('--------------------------------------------------------------')
+        print('In totaal is verbrast: ', "{0:.2f}".format(self.kasboek.totaal))
+        for k in self.kasboek.items:
+             print(k.naar, " krijgt van ", k.van, "{0:.2f}".format(k.bedrag) + " Euro")
 
 #
 #
@@ -69,3 +75,4 @@ if __name__ == '__main__':
     biosBorrel = BiosBorrelCalculator()
     biosBorrel.collectNamesAndAmount()
     biosBorrel.calculate()
+    biosBorrel.printOutput()
