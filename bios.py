@@ -47,17 +47,23 @@ class BiosBorrelCalculator:
         # Maak nieuw leeg kasboek
         self.kasboek = Kasboek()
 
-        #B ereken totaal gespendeerd
+        # Bereken totaal gespendeerd
         for deelnemer in self.deelnemers:
             self.kasboek.totaal += deelnemer.amount
 
+        # Copy deelnemers in locale var dn: algoritme is destructief
+        dn = []
+        for idx in self.deelnemers:
+            if abs((idx.amount * len(self.deelnemers)) - self.kasboek.totaal) >= 0.001:
+                dn.append(idx)
+
         # Voor alle deelnemens behalve jezelf bereken evt. betaling
-        for deelnemer in self.deelnemers:
-            for idx in self.deelnemers:
-                if deelnemer != idx:
-                    betaling = (deelnemer.amount / 3) - (idx.amount / 3)
+        for idx in dn:
+            for idy in dn:
+                if idx != idy:
+                    betaling = (idx.amount / len(dn)) - (idy.amount / len(dn))
                     if betaling > 0:
-                        kasboekRegel = KasboekRegel(idx.name, deelnemer.name, betaling)
+                        kasboekRegel = KasboekRegel(idy.name, idx.name, betaling)
                         self.kasboek.items.append(kasboekRegel)
 
     #
